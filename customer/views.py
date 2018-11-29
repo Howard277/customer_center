@@ -8,7 +8,7 @@ from django.core import serializers
 
 # Create your views here.
 def health(require):
-    return HttpResponse(json.dumps({'status': 'UP', 'description': 'my python customer center'}),
+    return HttpResponse(json.dumps({'status': 'UP'}),
                         content_type='application/json')
 
 
