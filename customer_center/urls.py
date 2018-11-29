@@ -19,7 +19,7 @@ import customer.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('customer/test', customer.views.test),
+    path('customer/health', customer.views.health),
     path('customer/save', customer.views.save),
     path('customer/all', customer.views.all)
 ]
