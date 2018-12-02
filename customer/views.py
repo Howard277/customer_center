@@ -50,6 +50,7 @@ def search_by_condition(require):
     return HttpResponse(serializers.serialize("json", customers), content_type="application/json")
 
 
+# 通过id删除客户信息
 @require_POST
 def delete_by_id(require):
     result = {'flag': True, 'msg': '删除失败！'}
