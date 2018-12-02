@@ -70,15 +70,15 @@ def page_by_condition(require):
     params = json.loads(require.body.decode())
     page = params['page']
     condition = params['condition']
-    customerList = Customer.objects.all()
+    customer_list = Customer.objects.all()
     if 'name' in condition and len(condition['name']) > 0:
-        customerList = customerList.filter(name=condition['name'])
+        customer_list = customer_list.filter(name=condition['name'])
     pagesize = page['pagesize']
     currentpage = page['currentpage']
     beginindex = (currentpage - 1) * pagesize
     endindex = currentpage * pagesize
-    total = len(customerList)
-    customerListJSON = serializers.serialize("json", customerList[beginindex:endindex])
+    total = len(customer_list)
+    customer_list_json = serializers.serialize("json", customer_list[beginindex:endindex])
     page['total'] = total
-    return HttpResponse(json.dumps({'data': customerListJSON, 'page': page}),
+    return HttpResponse(json.dumps({'data': customer_list_json, 'page': page}),
                         content_type="application/json")
