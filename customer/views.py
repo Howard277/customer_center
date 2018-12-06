@@ -4,6 +4,7 @@ from .models import Customer
 import json
 from django.views.decorators.http import require_POST, require_GET
 from django.core import serializers
+from django.db.models import Q
 
 
 # Create your views here.
@@ -23,10 +24,11 @@ def save(require):
         # 如果修改，那么首先需要从数据库中拿到原始对象
         id = paras['id']
         customer = Customer.objects.get(id=id)
-    if 'name' in paras:
-        customer.name = paras['name']
-    if 'sex' in paras:
-        customer.sex = paras['sex']
+    # 遍历所有参数与对象属性进行匹配，如果能匹配就进行赋值
+    for p_key in paras:
+        for c_key in customer.__dict__:
+            if p_key == c_key:
+                customer.__dict__[c_key] = paras[p_key]
     customer.save()
     return HttpResponse(customer.id)
 
@@ -71,13 +73,18 @@ def page_by_condition(require):
     page = params['page']
     condition = params['condition']
     customer_list = Customer.objects.all()
-    if 'name' in condition and len(condition['name']) > 0:
-        customer_list = customer_list.filter(name=condition['name'])
+    if condition != None and len(condition) > 0:
+        customer_list = customer_list.filter(Q(name__icontains=condition)
+                                             | Q(id_card_no__icontains=condition)
+                                             | Q(phone_no__icontains=condition)
+                                             | Q(phone_no_2__icontains=condition)
+                                             | Q(passport_no__icontains=condition)
+                                             | Q(home_address__icontains=condition))
     pagesize = page['pagesize']
     currentpage = page['currentpage']
     beginindex = (currentpage - 1) * pagesize
     endindex = currentpage * pagesize
-    total = len(customer_list)
+    total = customer_list.count()
     customer_list_json = serializers.serialize("json", customer_list[beginindex:endindex])
     page['total'] = total
     return HttpResponse(json.dumps({'data': customer_list_json, 'page': page}),
