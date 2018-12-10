@@ -5,6 +5,8 @@ import json
 from django.views.decorators.http import require_POST, require_GET
 from django.core import serializers
 from django.db.models import Q
+from PIL import Image
+import uuid
 
 
 # Create your views here.
@@ -89,3 +91,26 @@ def page_by_condition(require):
     page['total'] = total
     return HttpResponse(json.dumps({'data': customer_list_json, 'page': page}),
                         content_type="application/json")
+
+
+# @require_POST
+def upload_customer_image(request):
+    if request.method == 'POST':
+        photo = request.FILES['file']
+
+        if photo:
+            photoname = str(uuid.uuid1()) + '.' + str(photo).split('.')[-1]  # 使用uuid作为图片的存储名称
+            photofullname = '/Users/wuketao/Public/study/github/customer_center_static/src/assets/' + photoname
+            img = Image.open(photo)
+            img.save(photofullname)
+            if 'pk' in request.POST:
+                pk = request.POST['pk']
+                current_customer = Customer.objects.get(id=pk)  # type:Customer
+                current_customer.photo_url = photoname
+                current_customer.save()
+                # 设置一个session，然后跳转到对应的页面，此处简易写写
+                return HttpResponse('上传成功')
+            else:
+                return HttpResponse('上传失败')
+
+        return HttpResponse('图片为空')

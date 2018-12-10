@@ -14,11 +14,11 @@ class Customer(models.Model):
     phone_no_2 = models.CharField(max_length=20, null=True, db_index=True)
     passport_no = models.CharField(max_length=20, null=True, db_index=True)  # 护照号码
     home_address = models.CharField(max_length=200, null=True)  # 家庭详细地址
+    photo_url = models.CharField(max_length=200,null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     create_user = models.CharField(max_length=20)
     update_time = models.DateTimeField(auto_now=True)
     update_user = models.CharField(max_length=20)
-
 
 # 客户工作信息
 class WordInfo(models.Model):
