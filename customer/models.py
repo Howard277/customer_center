@@ -14,11 +14,12 @@ class Customer(models.Model):
     phone_no_2 = models.CharField(max_length=20, null=True, db_index=True)
     passport_no = models.CharField(max_length=20, null=True, db_index=True)  # 护照号码
     home_address = models.CharField(max_length=200, null=True)  # 家庭详细地址
-    photo_url = models.CharField(max_length=200,null=True)
+    photo_url = models.CharField(max_length=200, null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     create_user = models.CharField(max_length=20)
     update_time = models.DateTimeField(auto_now=True)
     update_user = models.CharField(max_length=20)
+
 
 # 客户工作信息
 class WordInfo(models.Model):
@@ -38,7 +39,7 @@ class Relationship(models.Model):
     customer_id = models.IntegerField(null=False, db_index=True)
     name = models.CharField(max_length=20, db_index=True)
     age = models.IntegerField(null=True)
-    sex = models.BooleanField  # True为男，False为女
+    sex = models.CharField(max_length=5, default='man')  # man为男，woman为女
     relation_type = models.CharField(max_length=20)  # 关系类型
     id_card_no = models.CharField(max_length=20, null=True, db_index=True)  # 身份证号码
     phone_no = models.CharField(max_length=20, null=True, db_index=True)
