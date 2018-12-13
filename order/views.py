@@ -6,6 +6,7 @@ import json
 from common import utils
 from django.views.decorators.http import require_POST
 from django.db.models import Q
+import redis
 
 
 # Create your views here.
@@ -19,7 +20,7 @@ def save(request):
         order = Order.objects.get(id=id)
     else:
         # 不包含订单id的，属于新增订单
-        order.id = 'order' + utils.get_time_str2()
+        order.id = utils.redis_incr('order')
     for okey in order.__dict__:
         for pkey in params:
             if okey == pkey:
