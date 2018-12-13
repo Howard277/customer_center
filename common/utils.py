@@ -3,8 +3,10 @@ import time
 
 # 获取当前时间的字符串形式
 def get_time_str():
-    return time.strftime('%Y-%m-%D %H:%M:%S', time.localtime())
+    return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
+def get_time_str2():
+    return time.strftime('%Y%m%d%H%M%S', time.localtime())
 
 # 获取sql中的count的情况
 def get_sql_count(table_name):
