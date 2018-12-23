@@ -100,7 +100,7 @@ def upload_customer_image(request):
 
         if photo:
             photoname = str(uuid.uuid1()) + '.' + str(photo).split('.')[-1]  # 使用uuid作为图片的存储名称
-            photofullname = '/Users/wuketao/Public/study/github/customer_center_static/src/assets/' + photoname
+            photofullname = '/Users/wuketao/Downloads/' + photoname
             img = Image.open(photo)
             img.save(photofullname)
             if 'pk' in request.POST:

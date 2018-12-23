@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+# 获取环境变量，通过环境变量设置配置参数
+ENV = os.getenv('ENV')
+# 打印出环境变量，便于排查问题
+print('ENV:', ENV)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -69,20 +73,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'customer_center.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'customer_center',
-        'USER': 'root',
-        'PASSWORD': '1qaz!QAZ',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
@@ -119,21 +109,63 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# 日志配置
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-        },
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['console'],
-            'propagate': True,
-            'level': 'DEBUG',
-        },
+if ENV == 'dev':
+    # 数据库配置
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'customer_center',
+            'USER': 'root',
+            'PASSWORD': '1qaz!QAZ',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
     }
-}
+    # 日志配置
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django.db.backends': {
+                'handlers': ['console'],
+                'propagate': True,
+                'level': 'DEBUG',
+            },
+        }
+    }
+else:
+    # 数据库配置
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'customer_center',
+            'USER': 'root',
+            'PASSWORD': '1qaz!QAZ',
+            'HOST': 'localhost',
+            'PORT': '3306',
+        }
+    }
+    # 日志配置
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+            },
+        },
+        'loggers': {
+            'django.db.backends': {
+                'handlers': ['console'],
+                'propagate': True,
+                'level': 'DEBUG',
+            },
+        }
+    }
