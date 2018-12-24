@@ -21,16 +21,6 @@ def get_date_str2():
     return time.strftime('%Y%m%d', time.localtime())
 
 
-# 获取sql中的count的情况
-def get_sql_count(table_name):
-    return str.format('select count(1) from %s ', table_name)
-
-
-# 获取sql中all的情况
-def get_sql_all(table_name):
-    return str.format('select all from %s ', table_name)
-
-
 # 获取redis 哨兵
 def _get_redis_sentinel():
     return Sentinel(settings.REDIS_SENTINELS,
