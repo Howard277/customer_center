@@ -138,8 +138,14 @@ LOGGING = {
     }
 }
 
+# redis配置
+REDIS_SENTINELS = [('192.168.13.118', 27001), ('192.168.13.118', 27002), ('192.168.13.118', 27003)]
+REDIS_SERVICE_NAME = 'mymaster'
+REDIS_PASSWORD = '1qaz!QAZ'
+REDIS_DB = 0
+
 # 设置不同环境下的变量
-if ENV == 'prod':
+if ENV == 'test':
     # 数据库配置
     DATABASES = {
         'default': {
@@ -147,25 +153,69 @@ if ENV == 'prod':
             'NAME': 'customer_center',
             'USER': 'root',
             'PASSWORD': '1qaz!QAZ',
-            'HOST': 'localhost',
+            'HOST': '10.5.34.46',
             'PORT': '3306',
         }
     }
     # 日志配置
+    BASE_LOG_DIR = os.getcwd() + '/log/'
+    if not os.path.exists(BASE_LOG_DIR):
+        print('创建日志文件夹：', BASE_LOG_DIR)
+        os.mkdir(BASE_LOG_DIR)
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
-        'handlers': {
-            'console': {
-                'level': 'DEBUG',
-                'class': 'logging.StreamHandler',
+        'formatters': {
+            'standard': {
+                'format': '[%(asctime)s][%(threadName)s:%(thread)d][task_id:%(name)s][%(filename)s:%(lineno)d]'
+                          '[%(levelname)s][%(message)s]'
+            },
+            'simple': {
+                'format': '[%(levelname)s][%(asctime)s][%(filename)s:%(lineno)d]%(message)s'
+            },
+            'collect': {
+                'format': '%(message)s'
+            }
+        },
+        'filters': {
+            'require_debug_true': {
+                '()': 'django.utils.log.RequireDebugTrue',
             },
         },
-        'loggers': {
-            'django.db.backends': {
-                'handlers': ['console'],
-                'propagate': True,
-                'level': 'DEBUG',
+        'handlers': {
+            'SF': {
+                'level': 'INFO',
+                'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件，根据文件大小自动切
+                'filename': os.path.join(BASE_LOG_DIR, "info.log"),  # 日志文件
+                'maxBytes': 1024 * 1024 * 50,  # 日志大小 50M
+                'backupCount': 3,  # 备份数为3  xx.log --> xx.log.1 --> xx.log.2 --> xx.log.3
+                'formatter': 'standard',
+                'encoding': 'utf-8',
             },
-        }
+            'TF': {
+                'level': 'INFO',
+                'class': 'logging.handlers.TimedRotatingFileHandler',  # 保存到文件，根据时间自动切
+                'filename': os.path.join(BASE_LOG_DIR, "info.log"),  # 日志文件
+                'backupCount': 3,  # 备份数为3  xx.log --> xx.log.2018-08-23_00-00-00 --> xx.log.2018-08-24_00-00-00 --> ...
+                'when': 'D',  # 每天一切， 可选值有S/秒 M/分 H/小时 D/天 W0-W6/周(0=周一) midnight/如果没指定时间就默认在午夜
+                'formatter': 'standard',
+                'encoding': 'utf-8',
+            },
+            'error': {
+                'level': 'ERROR',
+                'class': 'logging.handlers.RotatingFileHandler',  # 保存到文件，自动切
+                'filename': os.path.join(BASE_LOG_DIR, "err.log"),  # 日志文件
+                'maxBytes': 1024 * 1024 * 5,  # 日志大小 50M
+                'backupCount': 5,
+                'formatter': 'standard',
+                'encoding': 'utf-8',
+            }
+        },
+        'loggers': {
+            '': {  # 默认的logger应用如下配置
+                'handlers': ['SF', 'TF', 'error'],  # 上线之后可以把'console'移除
+                'level': 'DEBUG',
+                'propagate': True,
+            }
+        },
     }
