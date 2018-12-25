@@ -112,14 +112,14 @@ STATIC_URL = '/static/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hb_customer',
+        'NAME': 'customer',
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': '192.168.13.18',
         'PORT': '3306',
     }, 'db_slave': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hb_customer',
+        'NAME': 'customer',
         'USER': 'root',
         'PASSWORD': 'root123',
         'HOST': '192.168.13.17',
