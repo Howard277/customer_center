@@ -5,7 +5,7 @@ from customer_center import settings
 
 
 # 获取当前时间的字符串形式
-def get_time_str():
+def get_datetime_str():
     return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
 
 
@@ -13,7 +13,7 @@ def get_date_str():
     return time.strftime('%Y-%m-%d', time.localtime())
 
 
-def get_time_str2():
+def get_datetime_str2():
     return time.strftime('%Y%m%d%H%M%S', time.localtime())
 
 
@@ -49,6 +49,3 @@ def redis_incr(key):
     id_primary = key + get_date_str2()  # redis中存储的key是传入的关键字加当前日期信息。
     id_increase = redis_instance.incr(id_primary)
     return id_primary + str(id_increase)  # 最终返回信息为redis中存储的key+value
-
-
-print(redis_incr('test'))
