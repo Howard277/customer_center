@@ -27,7 +27,7 @@ SECRET_KEY = '(a93ols_158i-2kqr1y@v^@-$%w)xig=23+76ucsdxhzpvla)n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+ATOMIC_REQUESTS = True
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -112,13 +112,22 @@ STATIC_URL = '/static/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'customer_center',
+        'NAME': 'hb_customer',
         'USER': 'root',
-        'PASSWORD': '1qaz!QAZ',
-        'HOST': 'localhost',
+        'PASSWORD': 'root',
+        'HOST': '192.168.13.18',
+        'PORT': '3306',
+    }, 'db_slave': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'hb_customer',
+        'USER': 'root',
+        'PASSWORD': 'root123',
+        'HOST': '192.168.13.17',
         'PORT': '3306',
     }
 }
+# 数据库路由配置
+DATABASE_ROUTERS = ['customer_center.dbrouter.Router', ]
 # 日志配置
 LOGGING = {
     'version': 1,
@@ -150,10 +159,17 @@ if ENV == 'test':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'customer_center',
+            'NAME': 'hb_customer',
             'USER': 'root',
-            'PASSWORD': '1qaz!QAZ',
-            'HOST': '10.5.34.46',
+            'PASSWORD': 'root',
+            'HOST': '192.168.13.18',
+            'PORT': '3306',
+        }, 'db_slave': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'hb_customer',
+            'USER': 'root',
+            'PASSWORD': 'root123',
+            'HOST': '192.168.13.17',
             'PORT': '3306',
         }
     }

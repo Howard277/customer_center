@@ -6,7 +6,6 @@ import json
 from common import utils
 from django.views.decorators.http import require_POST
 from django.db.models import Q
-import redis
 
 
 # Create your views here.

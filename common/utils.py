@@ -45,7 +45,7 @@ def get_redis_slave():
 
 # redis自增
 def redis_incr(key):
-    redis_instance = get_redis_master()
+    redis_instance = redis.Redis(host='192.168.13.118', port=7001, db=0, password='1qaz!QAZ')  # get_redis_master()
     id_primary = key + get_date_str2()  # redis中存储的key是传入的关键字加当前日期信息。
     id_increase = redis_instance.incr(id_primary)
     return id_primary + str(id_increase)  # 最终返回信息为redis中存储的key+value
