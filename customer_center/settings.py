@@ -114,15 +114,15 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'customer',
         'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '192.168.13.18',
+        'PASSWORD': '1qaz!QAZ',
+        'HOST': 'localhost',
         'PORT': '3306',
     }, 'db_slave': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'customer',
+        'NAME': 'customer_slave',
         'USER': 'root',
-        'PASSWORD': 'root123',
-        'HOST': '192.168.13.17',
+        'PASSWORD': '1qaz!QAZ',
+        'HOST': 'localhost',
         'PORT': '3306',
     }
 }
