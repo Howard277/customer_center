@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/2.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
-
 import os
 
 # 获取环境变量，通过环境变量设置配置参数
@@ -51,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'common.logmiddleware.LogMiddleware',
 ]
 
 ROOT_URLCONF = 'customer_center.urls'
@@ -117,17 +117,18 @@ DATABASES = {
         'PASSWORD': '1qaz!QAZ',
         'HOST': 'localhost',
         'PORT': '3306',
-    }, 'db_slave': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'customer_slave',
-        'USER': 'root',
-        'PASSWORD': '1qaz!QAZ',
-        'HOST': 'localhost',
-        'PORT': '3306',
     }
+    # , 'db_slave': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'customer_slave',
+    #     'USER': 'root',
+    #     'PASSWORD': '1qaz!QAZ',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    # }
 }
 # 数据库路由配置
-DATABASE_ROUTERS = ['customer_center.dbrouter.Router', ]
+# DATABASE_ROUTERS = ['customer_center.dbrouter.Router', ]
 # 日志配置
 LOGGING = {
     'version': 1,

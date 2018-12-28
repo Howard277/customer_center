@@ -1,12 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpRequest
-from .models import Customer
+import uuid
 import json
+from django.http import HttpResponse
+from .models import Customer
 from django.views.decorators.http import require_POST, require_GET
 from django.core import serializers
 from django.db.models import Q
 from PIL import Image
-import uuid
 
 
 # Create your views here.
